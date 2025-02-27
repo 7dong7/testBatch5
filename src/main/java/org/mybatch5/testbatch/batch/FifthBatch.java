@@ -20,6 +20,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.io.IOException;
 import java.util.Map;
 
+
+/**
+ *  DB 테이블을 읽어서 엑셀로 저장하는 배치
+ */
 @Configuration
 @RequiredArgsConstructor
 public class FifthBatch {

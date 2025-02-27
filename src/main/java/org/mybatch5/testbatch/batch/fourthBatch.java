@@ -19,6 +19,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import java.io.IOException;
 
+
+/**
+ *  엑셀 파일을 읽어서 DB 테이블에 저장하는 배치
+ */
 @Configuration
 @RequiredArgsConstructor
 public class fourthBatch {
