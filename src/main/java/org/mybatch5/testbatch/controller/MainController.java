@@ -81,4 +81,19 @@ public class MainController {
         return "ok";
     }
 
+    // fourth 배치 - 엑셀을 db로 읽어오는 배치
+    @GetMapping("/fifth")
+    public String fifthApi(@RequestParam("value") String value) throws Exception {
+
+        // jop 파라미터 생성
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("date", value)
+                .toJobParameters();
+
+        // jop 실행
+        jobLauncher.run(jobRegistry.getJob("fifthJob"), jobParameters);
+
+        return "ok";
+    }
+
 }
