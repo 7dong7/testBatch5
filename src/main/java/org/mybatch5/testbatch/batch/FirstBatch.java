@@ -23,7 +23,16 @@ import java.util.Map;
 
 @Configuration
 public class FirstBatch {
-
+    /**
+     *  JobRepository
+     *      - 배치 Job의 실행 상태, 메타데이터, 실행 기록 ( JonInstance, JobExecution, StepExecution )을 저장하고 관리한다
+     *      - Job 과 Step 을 생성할 때 JpaRepository 를 전달하여 실행 정보를 기록하고, 재시작 (restart)등의 기능을 지원한다
+     *
+     *  PlatformTransactionManager
+     *      - 배치 처리 중 데이터베이스 트랜잭션을 관리한다
+     *      - 청크 기반 처리에서 각 청크(chunk) 단위의 데이터 읽기, 처리, 쓰기 작업을 하나의 트랜잭션으로 묶어 커믹하거나
+     *          에러 발생 시 롤백하도록 한다
+     */
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
 
