@@ -23,9 +23,9 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
 
     public ExcelRowWriter(String filePath) throws IOException {
 
-        this.filePath = filePath;
-        this.isClosed = false;
-        this.currentRowNumber = 0;
+        this.filePath = filePath;   // 저장하려는 엑셀파일의 경로
+        this.isClosed = false;      // 엑셀 파일 작업중 자원이 열려있다는 표시
+        this.currentRowNumber = 0;  // 엑셀 파일의 첫 행부터 작업을 시작하도록 한다
     }
 
     /**
@@ -46,7 +46,6 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
         sheet = workbook.createSheet("Sheet1");
     }
 
-
     /**
      *  배치 작업에서 청크 단위로 전달받은 BeforeEntity 객체들을 Excel 시트에 기록한다
      *  전달받은 각 청크(리스트 형태)의 각 BeforeEntity 객체데 대해 반복문 실행
@@ -55,8 +54,9 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
      *      - 현재 row 번호에 해당하는 행을 생성하고, currentRowNumber 의 값을 하나 올린다
      *
      *  row.createCell(0).setCellValue(entity.getUsername());
-     *      - 생성된 행의 첫 번째 셀(인덱스 0)에 entity의 username 값을 기록한다
-     *      
+     *      - row.createCell(0): 생성된 행의 첫 번째 열(cell, 인덱스 0)
+     *      - setCellValue(entity.getUsername()): entity 의 username 값을 기록한다
+     *
      *  위 의 작업 반복적으로 수행
      */
     @Override
@@ -72,7 +72,7 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
      *  배치 작업이 모두 완료된 후 호출, 생성된 excel 워크북을 파일로 저장하고, 사용한 자원을 해제한다
      *
      *  if (isClosed) { return; }
-     *      - 이미 close()가 호출되어 자원이 해제된 경우에는 추가 작업을 건너 뛴다
+     *      - 이미 close()가 호출되어 자원이 해제된 경우에는 추가 작업을 종료한다
      *
      *  try (FileOutputStream fileOut = new FileOutputStream(filePath)) { workbook.write(fileOut); }
      *      - 파일 출력 스트림을 생성하여 filePath에 workbook의 내용을 기록한다
@@ -80,6 +80,7 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
      *      
      *  workbook.close();
      *      - workbook 자원을 해제한다
+     *      - 메모리 누수, 파일 잠금 등의 문제를 방지
      *
      *  isClosed = true;
      *      - 작업이 완료되었음을 표시한다

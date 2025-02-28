@@ -32,7 +32,7 @@ public class FifthBatch {
     private final PlatformTransactionManager platformTransactionManager;
     private final BeforeRepository beforeRepository;
 
-    // ===  job 등록 === //
+    // ===  job 정의 === //
     @Bean
     public Job fifthJob() {
 
@@ -43,21 +43,21 @@ public class FifthBatch {
                 .build();
     }
     
-    // === step 등록 === //
+    // === step 정의 === //
     @Bean
     public Step fifthStep() {
 
         System.out.println("fifth step");
 
-        return new StepBuilder("fifthStep", jobRepository)
-                .<BeforeEntity, BeforeEntity> chunk(10, platformTransactionManager)
+        return new StepBuilder("fifthStep", jobRepository)          // step 정의
+                .<BeforeEntity, BeforeEntity> chunk(10, platformTransactionManager) // 청크 사이즈
                 .reader(fifthBeforeReader())
                 .processor(fifthProcessor())
                 .writer(excelWriter())
-                .build();
+                .build();   // step 생성
     }
     
-    // === reader 등록 === //
+    // === reader 정의 === //
     @Bean
     public RepositoryItemReader<BeforeEntity> fifthBeforeReader() {
 
@@ -75,20 +75,19 @@ public class FifthBatch {
         return reader;
     }
 
-
-    // === processor 등록 === //
+    // === processor 정의 === //
     @Bean
     public ItemProcessor<BeforeEntity, BeforeEntity> fifthProcessor() {
-
         return item -> item;
     }
 
 
-    // === writer 등록 === //
+    // === writer 정의 === //
     @Bean
     public ItemStreamWriter<BeforeEntity> excelWriter() {
 
         try {
+            // 해당 경로의 엑셀 파일에 저장 혹은 생성
             return new ExcelRowWriter("C:\\Users\\USER\\OneDrive\\문서\\result.xlsx");
             //리눅스나 맥은 /User/형태로
         } catch (IOException e) {

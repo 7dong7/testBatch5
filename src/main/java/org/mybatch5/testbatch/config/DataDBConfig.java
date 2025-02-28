@@ -51,6 +51,13 @@ public class DataDBConfig {
         em.setDataSource(dataDBSource());
         // 엔티티 클래스들이 위치한 패키지 설정
         em.setPackagesToScan(new String[]{"org.mybatch5.testbatch.entity"});
+            // 만약 엔티티 클래스들을 관리하는 구조가 여러개인 경우 아래와 같이 작성할 수 있다
+//        em.setPackagesToScan(new String[]{
+//                "domain.member.entity",
+//                "domain.post.entity",
+//                "domain.comment.entity"
+//        });
+
         // Hibernate 를 JPA 벤더 어댑터로 사용
         em. setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
