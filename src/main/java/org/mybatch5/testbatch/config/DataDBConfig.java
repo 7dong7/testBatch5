@@ -36,7 +36,7 @@ public class DataDBConfig {
      */
     
     // 비즈니스 DB 에 연결한 DataSource Bean 을 생성한다
-    @Bean
+    @Bean(name = "dataDBSource")
     @ConfigurationProperties(prefix = "spring.datasource-data")
     public DataSource dataDBSource() {
         return DataSourceBuilder.create().build();

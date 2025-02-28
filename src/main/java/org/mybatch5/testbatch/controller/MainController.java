@@ -35,7 +35,7 @@ public class MainController {
          *      생성된 jobParameters 는 배치 job의 실행에 필요한 입력값으로 사용된다
          */
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
+                .addString("data", value)
                 .toJobParameters();
 
         /**
@@ -58,7 +58,7 @@ public class MainController {
 
         // 잡 파라미터 생성
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
+                .addString("data", value)
                 .toJobParameters();
 
         jobLauncher.run(jobRegistry.getJob("secondJob"), jobParameters);
@@ -72,7 +72,7 @@ public class MainController {
         
         // jop 파라미터 생성
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
+                .addString("data", value)
                 .toJobParameters();
 
         // jop 실행
@@ -87,11 +87,26 @@ public class MainController {
 
         // jop 파라미터 생성
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
+                .addString("data", value)
                 .toJobParameters();
 
         // jop 실행
         jobLauncher.run(jobRegistry.getJob("fifthJob"), jobParameters);
+
+        return "ok";
+    }
+
+    // sixth 배치 - 엑셀을 db로 읽어오는 배치
+    @GetMapping("/sixth")
+    public String sixthApi(@RequestParam("value") String value) throws Exception {
+
+        // jop 파라미터 생성
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("data", value)
+                .toJobParameters();
+
+        // jop 실행
+        jobLauncher.run(jobRegistry.getJob("sixthJob"), jobParameters);
 
         return "ok";
     }
