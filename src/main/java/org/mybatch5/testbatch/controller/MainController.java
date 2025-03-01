@@ -96,7 +96,7 @@ public class MainController {
         return "ok";
     }
 
-    // sixth 배치 - 엑셀을 db로 읽어오는 배치
+    // sixth 배치 - 
     @GetMapping("/sixth")
     public String sixthApi(@RequestParam("value") String value) throws Exception {
 
@@ -107,6 +107,21 @@ public class MainController {
 
         // jop 실행
         jobLauncher.run(jobRegistry.getJob("sixthJob"), jobParameters);
+
+        return "ok";
+    }
+
+    // seventh 배치 - WinEntity win>=10 인 경우 WinEntity reward = true 변경 배치
+    @GetMapping("/seventh")
+    public String seventhApi(@RequestParam("value") String value) throws Exception {
+
+        // jop 파라미터 생성
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("data", value)
+                .toJobParameters();
+
+        // jop 실행
+        jobLauncher.run(jobRegistry.getJob("seventhJob"), jobParameters);
 
         return "ok";
     }
