@@ -52,7 +52,7 @@ public class FourthBatch {
         return new StepBuilder("fourthStep", jobRepository) // step 정의
                 // import org.apache.poi.ss.usermodel.Row; 엑셇을 읽는 타입
                 .<Row, AfterEntity> chunk(10, platformTransactionManager) // Row: 액셀의 한행  
-                .reader(excelReader())
+                .reader(fourthReader())
                 .processor(fourthProcessor())
                 .writer(fourthAfterWriter())
                 .build();   // step 생성
@@ -70,7 +70,7 @@ public class FourthBatch {
      */
     // == reader == //
     @Bean
-    public ItemStreamReader<Row> excelReader() {
+    public ItemStreamReader<Row> fourthReader() {
 
         try {
             return new ExcelRowReader("C:\\Users\\USER\\OneDrive\\문서\\통합 문서1.xlsx");

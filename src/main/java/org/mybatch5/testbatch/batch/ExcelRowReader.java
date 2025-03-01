@@ -21,7 +21,7 @@ public class ExcelRowReader implements ItemStreamReader<Row> {
      *      - 생성자에서 받는다
      *
      *  fileInputStream
-     *      - 지정된 파일을 읽기위한 스트림 객체
+     *      - 지정된 파일을 읽기위한 스트림 객체 (Apache POI 의 XSSWorkbook 사용)
      *
      *  workbook
      *      - excel 파일 전체를 나타내는 객체
@@ -31,8 +31,9 @@ public class ExcelRowReader implements ItemStreamReader<Row> {
      *      - 기본적으로 엑셀의 첫 번째 시트의 모든 행을 순회한다
      *
      *  currentRowNumber
-     *      - 현재까지 처리한 행의 번호를 기록한다
-     *      - 해당 처리를 다시 시작할 경우 체크포인트로 사용되어 처리를 처음부터 진행하지 않게 할 수 있다
+     *      - 현재 읽고 있는 행 번호. 
+     *      - 초기값 1로 시작할 경우 헤더를 스킵할 수 있다. 0으로 시작하는 경우 맨 위에서 부터 읽는다
+     *      - 이 값을 기록해 두면 체크포인트로 사용해 문제가 발생하면 처음부터 읽지 않고, currentRowNumber 에 해당하는 행 부터 읽을 수 있다
      *
      *  CURRENT_ROW_KEY
      *      - ExecutionContext 에 저장할 때 사용할 키 이름
@@ -118,10 +119,10 @@ public class ExcelRowReader implements ItemStreamReader<Row> {
         try {
             if (workbook != null) {
                 // 자원 해 (작업이 종료된 workbook(액셀) 을 닫아 리소스를 해제한다
-                workbook.close();
+                workbook.close(); // 이미 읽어들인 엑셀 객체의 리소스를 해제 이후에 더 이상 참조하지 않을 경우 GC가 알아서 없앰
             }
             if (fileInputStream != null) {
-                fileInputStream.close();
+                fileInputStream.close(); // 파일을 읽는 inputStream 을 해제한다
             }
         } catch (IOException e) {
             throw new ItemStreamException(e);

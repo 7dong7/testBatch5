@@ -26,12 +26,12 @@ import java.util.Map;
 public class SeventhBatch {
 
     private final JobRepository jobRepository;
-
     private final PlatformTransactionManager platformTransactionManager;
-
     private final DataSource dataSource;
 
-    public SeventhBatch(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, @Qualifier("dataDBSource") DataSource dataSource) {
+    public SeventhBatch(JobRepository jobRepository,
+                        PlatformTransactionManager platformTransactionManager,
+                        @Qualifier("dataDBSource") DataSource dataSource) {
         this.jobRepository = jobRepository;
         this.platformTransactionManager = platformTransactionManager;
         this.dataSource = dataSource;
@@ -50,7 +50,7 @@ public class SeventhBatch {
     public Step seventhStep() {
 
         return new StepBuilder("seventhStep", jobRepository)
-                .<WinEntity, WinEntity>chunk(100, platformTransactionManager)
+                .<WinEntity, WinEntity>chunk(10, platformTransactionManager)
                 .reader(seventhReader())
                 .processor(seventhProcessor())
                 .writer(seventhWriter())

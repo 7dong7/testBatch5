@@ -53,7 +53,7 @@ public class FifthBatch {
                 .<BeforeEntity, BeforeEntity> chunk(10, platformTransactionManager) // 청크 사이즈
                 .reader(fifthBeforeReader())
                 .processor(fifthProcessor())
-                .writer(excelWriter())
+                .writer(fifthwriter())
                 .build();   // step 생성
     }
     
@@ -84,7 +84,7 @@ public class FifthBatch {
 
     // === writer 정의 === //
     @Bean
-    public ItemStreamWriter<BeforeEntity> excelWriter() {
+    public ItemStreamWriter<BeforeEntity> fifthwriter() {
 
         try {
             // 해당 경로의 엑셀 파일에 저장 혹은 생성

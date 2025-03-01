@@ -126,4 +126,34 @@ public class MainController {
         return "ok";
     }
 
+    // csvReaderJob 배치
+    @GetMapping("/csvReaderJob")
+    public String csvReaderJobApi(@RequestParam("value") String value) throws Exception {
+
+        // jop 파라미터 생성
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("data", value)
+                .toJobParameters();
+
+        // jop 실행
+        jobLauncher.run(jobRegistry.getJob("csvReaderJob"), jobParameters);
+
+        return "ok";
+    }
+
+    // ReadExcelJDBCWriterBatch 배치
+    @GetMapping("/excelReadJob")
+    public String excelReadJobApi(@RequestParam("value") String value) throws Exception {
+
+        // jop 파라미터 생성
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("data", value)
+                .toJobParameters();
+
+        // jop 실행
+        jobLauncher.run(jobRegistry.getJob("excelReadJob"), jobParameters);
+
+        return "ok";
+    }
+
 }
